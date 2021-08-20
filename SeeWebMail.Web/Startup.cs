@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SeeWebMail.Contracts.Abstract;
+using SeeWebMail.Core.Services;
+using SeeWebMail.Infrastructure.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SeeWebMail.Web
 {
@@ -23,7 +24,15 @@ namespace SeeWebMail.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddRazorPages();
+			services.AddControllersWithViews();
+			// In production, the Angular files will be served from this directory
+			services.AddSpaStaticFiles(configuration =>
+			{
+				configuration.RootPath = "Angular/dist";
+			});
+			services.AddSingleton<ISqliteRepository>(new SqliteRepository(Configuration.GetSection("ConnectionStrings")["WebmailDatabase"]));
+
+			services.AddTransient<IAuthorizationService, AuthorizationService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,14 +51,29 @@ namespace SeeWebMail.Web
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+			if (!env.IsDevelopment())
+			{
+				app.UseSpaStaticFiles();
+			}
 
 			app.UseRouting();
 
-			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapRazorPages();
+				endpoints.MapControllerRoute(
+					name: "default",
+					pattern: "api/{controller}/{action=Index}/{id?}");
+			});
+
+			app.UseSpa(spa =>
+			{
+				spa.Options.SourcePath = "Angular";
+				spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
+
+				if (env.IsDevelopment())
+				{
+					spa.UseAngularCliServer(npmScript: "start");
+				}
 			});
 		}
 	}

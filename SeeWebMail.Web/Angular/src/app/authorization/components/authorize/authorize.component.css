@@ -1,0 +1,17 @@
+.login-container {
+  position: relative;
+  height: 100%;
+  z-index: 5;
+}
+  .login-container .login-content {
+    height: 100%;
+    text-align: center;
+  }
+
+    .login-container .login-content .login-form {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      -webkit-perspective: 500px;
+      perspective: 500px;
+    }

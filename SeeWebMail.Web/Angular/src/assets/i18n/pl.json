@@ -1,0 +1,9 @@
+{
+  "login": {
+    "title": "Logowanie do Web Mail...",
+    "userEmail": "Adres email",
+    "password": "Hasło",
+    "rememberMe": "Zapamiętaj mnie",
+    "submit": "Zaloguj"
+  }
+}
