@@ -23,7 +23,7 @@ namespace SeeWebMail.Infrastructure.Sqlite
 		{
 			using (var connection = new SqliteConnection(_connectionString))
 			{
-				var user = await connection.QuerySingleOrDefaultAsync<UserDto>(SqlQueries.GetUsers, new { UserEmail = emailAddress });
+				var user = await connection.QuerySingleOrDefaultAsync<UserEntity>(SqlQueries.GetUsers, new { UserEmail = emailAddress });
 				if (user != null)
 				{
 					return user.MapToUserContract();

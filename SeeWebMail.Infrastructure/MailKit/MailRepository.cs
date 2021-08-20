@@ -22,7 +22,7 @@ namespace SeeWebMail.Infrastructure.MailKit
 			{
 				using (var imapClient = new ImapClient())
 				{
-					await imapClient.ConnectAsync(user.Mailbox.ServerName, user.Mailbox.PortNumber, user.Mailbox.UseSsl);
+					await imapClient.ConnectAsync(user.Mailbox.ImapAddress, user.Mailbox.ImapPort, user.Mailbox.UseSsl);
 					await imapClient.AuthenticateAsync(user.UserEmail, password);
 					return OperationResult.Success;
 				}

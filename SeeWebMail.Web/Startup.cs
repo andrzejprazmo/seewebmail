@@ -70,10 +70,10 @@ namespace SeeWebMail.Web
 			app.UseSpa(spa =>
 			{
 				spa.Options.SourcePath = "Angular";
-				spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
 
 				if (env.IsDevelopment())
 				{
+					spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
 					spa.UseAngularCliServer(npmScript: "start");
 				}
 			});
