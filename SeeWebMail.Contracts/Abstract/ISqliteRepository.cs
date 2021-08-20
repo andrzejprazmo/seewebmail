@@ -8,6 +8,6 @@ namespace SeeWebMail.Contracts.Abstract
 {
 	public interface ISqliteRepository
 	{
-		Task<UserContract> GetUser(string emailAddress);
+		Task<UserContract> FindUser(string emailAddress);
 	}
 }

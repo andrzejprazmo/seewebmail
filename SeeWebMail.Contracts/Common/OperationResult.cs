@@ -8,7 +8,7 @@ namespace SeeWebMail.Contracts.Common
 {
 	public class OperationResult
 	{
-		public IEnumerable<ErrorCodes> ErrorCodes { get; set; }
+		public List<ErrorCodes> ErrorCodes { get; set; }
 
 		public bool HasErrors => ErrorCodes.Any();
 
@@ -16,7 +16,7 @@ namespace SeeWebMail.Contracts.Common
 
 		protected OperationResult()
 		{
-			ErrorCodes = Enumerable.Empty<ErrorCodes>();
+			ErrorCodes = new List<ErrorCodes>();
 		}
 
 		public static OperationResult Create() => new OperationResult();
@@ -24,6 +24,12 @@ namespace SeeWebMail.Contracts.Common
 		public OperationResult WithError(ErrorCodes error)
 		{
 			ErrorCodes.Append(error);
+			return this;
+		}
+
+		public OperationResult WithErrors(IEnumerable<ErrorCodes> errors)
+		{
+			ErrorCodes.AddRange(errors);
 			return this;
 		}
 	}
@@ -45,6 +51,12 @@ namespace SeeWebMail.Contracts.Common
 		public new OperationResult<T> WithError(ErrorCodes error)
 		{
 			return this.WithError(error);
+		}
+
+		public new OperationResult<T> WithErrors(IEnumerable<ErrorCodes> errors)
+		{
+			ErrorCodes.AddRange(errors);
+			return this;
 		}
 
 	}

@@ -11,5 +11,7 @@ namespace SeeWebMail.Contracts.Contracts
 		public string ServerName { get; set; }
 
 		public int PortNumber { get; set; }
+
+		public bool UseSsl { get; set; }
 	}
 }

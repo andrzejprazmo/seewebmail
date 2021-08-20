@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SeeWebMail.Contracts.Abstract;
 using SeeWebMail.Core.Services;
+using SeeWebMail.Infrastructure.MailKit;
 using SeeWebMail.Infrastructure.Sqlite;
 using System;
 
@@ -31,6 +32,7 @@ namespace SeeWebMail.Web
 				configuration.RootPath = "Angular/dist";
 			});
 			services.AddSingleton<ISqliteRepository>(new SqliteRepository(Configuration.GetSection("ConnectionStrings")["WebmailDatabase"]));
+			services.AddTransient<IMailRepository, MailRepository>();
 
 			services.AddTransient<IAuthorizationService, AuthorizationService>();
 		}

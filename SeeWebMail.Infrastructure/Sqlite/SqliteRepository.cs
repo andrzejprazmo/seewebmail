@@ -19,7 +19,7 @@ namespace SeeWebMail.Infrastructure.Sqlite
 		{
 			_connectionString = connectionString;
 		}
-		public async Task<UserContract> GetUser(string emailAddress)
+		public async Task<UserContract> FindUser(string emailAddress)
 		{
 			using (var connection = new SqliteConnection(_connectionString))
 			{
