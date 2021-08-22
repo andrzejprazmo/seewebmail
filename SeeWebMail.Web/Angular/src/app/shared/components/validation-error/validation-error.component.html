@@ -1,1 +1,3 @@
-<p>validation-error works!</p>
+<div *ngIf="operationResult && operationResult.hasErrors" class="alert alert-danger">
+  <div *ngFor="let error of errorMessages">{{ error }}</div>
+</div>

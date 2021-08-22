@@ -4,6 +4,17 @@
     "userEmail": "Adres email",
     "password": "Hasło",
     "rememberMe": "Zapamiętaj mnie",
-    "submit": "Zaloguj"
+    "submit": "Zaloguj",
+    "validationErrors": {
+      "emailRequired": "Wprowadź swój adres email",
+      "passwordRequired": "Wprowadź hasło do skrzynki pocztowej",
+      "badEmailFormat": "Nieprawidłowy format adresu email"
+    }
+  },
+  "errorCodes": {
+    "ERROR_100": "Błąd aplikacji. Skontaktuj się z administratorem",
+    "ERROR_101": "Ten adres email nie został zarejestrowany",
+    "ERROR_102": "Niewłasciwy adres email, bądź hasło"
   }
+
 }

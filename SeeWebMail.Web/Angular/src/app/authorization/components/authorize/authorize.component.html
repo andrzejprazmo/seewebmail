@@ -2,14 +2,18 @@
   <div class="card" style="min-width:500px;">
     <div class="card-body px-4">
       <h5 class="card-title" [translate]="'login.title'" ></h5>
-      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+      <app-validation-error [operationResult]="loginResult"></app-validation-error>
+      <form class="needs-validation" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" [ngClass]="{'was-validated': !loginForm.valid && submited}" novalidate>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label" [translate]="'login.userEmail'"></label>
-          <input type="email" class="form-control" formControlName="emailAddress" />
+          <input type="email" class="form-control" formControlName="emailAddress" required />
+          <div *ngIf="emailAddress.errors?.required" class="invalid-feedback" [translate]="'login.validationErrors.emailRequired'"></div>
+          <div *ngIf="emailAddress.errors?.email" class="invalid-feedback"  [translate]="'login.validationErrors.badEmailFormat'"></div>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label" [translate]="'login.password'"></label>
-          <input type="password" class="form-control" formControlName="password" />
+          <input type="password" class="form-control" formControlName="password" required />
+          <div *ngIf="password.errors?.required" class="invalid-feedback" [translate]="'login.validationErrors.passwordRequired'"></div>
         </div>
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" formControlName="rememberMe">
@@ -20,4 +24,3 @@
     </div>
   </div>
 </div>
-

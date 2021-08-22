@@ -1,0 +1,16 @@
+#loading-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #bbb;
+  min-height: 100vh;
+  z-index: 100;
+  opacity: 0.5;
+}
+  #loading-spinner .spinner-icon {
+    background: url('assets/img/spinner.gif') no-repeat center center;
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+    z-index: 101;
+  }

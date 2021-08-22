@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MailboxComponent } from './components/mailbox/mailbox.component';
+import { SharedModule } from '@shared/shared.module';
 
 
 
@@ -9,7 +10,7 @@ import { MailboxComponent } from './components/mailbox/mailbox.component';
     MailboxComponent
   ],
   imports: [
-    CommonModule
+    CommonModule, SharedModule
   ]
 })
 export class MailboxModule { }
