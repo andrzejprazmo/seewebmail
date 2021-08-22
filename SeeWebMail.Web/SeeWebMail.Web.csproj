@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.15.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.17" />
   </ItemGroup>
 
@@ -43,6 +44,10 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Angular\src\app\shared\models\operation-result.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Angular\src\assets\img\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

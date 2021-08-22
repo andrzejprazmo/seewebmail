@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizeService, TokenContract } from '../../../authorization/services/authorize.service';
+import { MailboxService } from '../../services/mailbox.service';
 
 @Component({
   selector: 'app-mailbox',
@@ -8,13 +9,19 @@ import { AuthorizeService, TokenContract } from '../../../authorization/services
 })
 export class MailboxComponent implements OnInit {
 
+  folderList: string[] = [];
+
   public get currentUser(): TokenContract | null {
     return this.authService.getUser();
   }
 
-  constructor(private authService: AuthorizeService) { }
+  constructor(private authService: AuthorizeService, private mailboxService: MailboxService) { }
 
   ngOnInit(): void {
+    this.mailboxService.getFolders().subscribe(result => {
+      this.folderList = result;
+      console.log(result);
+    });
   }
 
 }

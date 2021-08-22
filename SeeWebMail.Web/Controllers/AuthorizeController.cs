@@ -22,7 +22,7 @@ namespace SeeWebMail.Web.Controllers
 
 		[HttpPost]
 		[Route("login")]
-		public async Task<OperationResult<UserContract>> Login(LoginContract contract) 
+		public async Task<OperationResult<TokenContract>> Login(LoginContract contract) 
 			=> await authorizationService.Login(contract.EmailAddress, contract.Password);
 	}
 }

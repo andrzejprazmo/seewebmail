@@ -23,7 +23,7 @@ namespace SeeWebMail.Contracts.Common
 
 		public OperationResult WithError(ErrorCodes error)
 		{
-			ErrorCodes.Append(error);
+			ErrorCodes.Add(error);
 			return this;
 		}
 
@@ -50,7 +50,8 @@ namespace SeeWebMail.Contracts.Common
 
 		public new OperationResult<T> WithError(ErrorCodes error)
 		{
-			return this.WithError(error);
+			ErrorCodes.Add(error);
+			return this;
 		}
 
 		public new OperationResult<T> WithErrors(IEnumerable<ErrorCodes> errors)

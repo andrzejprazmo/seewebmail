@@ -8,7 +8,7 @@ namespace SeeWebMail.Contracts.Contracts
 	{
 		public Guid UserId { get; set; }
 		public string UserEmail { get; set; }
-		public MailboxContract Mailbox { get; set; }
-		public string Token { get; set; }
+        public bool IsAdmin { get; set; }
+        public MailboxContract Mailbox { get; set; }
 	}
 }

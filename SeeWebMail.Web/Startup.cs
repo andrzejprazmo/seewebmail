@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,11 +6,14 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using SeeWebMail.Contracts.Abstract;
+using SeeWebMail.Contracts.Configuration;
 using SeeWebMail.Core.Services;
 using SeeWebMail.Infrastructure.MailKit;
 using SeeWebMail.Infrastructure.Sqlite;
 using System;
+using System.Text;
 
 namespace SeeWebMail.Web
 {
@@ -31,11 +35,34 @@ namespace SeeWebMail.Web
 			{
 				configuration.RootPath = "Angular/dist";
 			});
-			services.AddSingleton<ISqliteRepository>(new SqliteRepository(Configuration.GetSection("ConnectionStrings")["WebmailDatabase"]));
+			services.AddHttpContextAccessor();
+
+			services.Configure<Authorization>(Configuration.GetSection("Authorization"));
+
+			services.AddSingleton<ISqliteRepository>(new SqliteRepository(Configuration["ConnectionStrings:WebmailDatabase"]));
 			services.AddTransient<IMailRepository, MailRepository>();
 
 			services.AddTransient<IAuthorizationService, AuthorizationService>();
-		}
+			services.AddTransient<IMailboxService, MailboxService>();
+
+			//services.AddCors();
+			services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authorization:Secret"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,6 +87,10 @@ namespace SeeWebMail.Web
 
 			app.UseRouting();
 
+			//app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+			app.UseAuthentication();
+			app.UseAuthorization();
+
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(
@@ -73,7 +104,7 @@ namespace SeeWebMail.Web
 
 				if (env.IsDevelopment())
 				{
-					spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
+					//spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
 					spa.UseAngularCliServer(npmScript: "start");
 				}
 			});

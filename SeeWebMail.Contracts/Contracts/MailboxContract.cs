@@ -12,14 +12,12 @@ namespace SeeWebMail.Contracts.Contracts
 
 		public int ImapPort { get; set; }
 
+		public bool ImapSsl { get; set; }
+
 		public string SmtpAddress { get; set; }
 
 		public int SmtpPort { get; set; }
 
-		public string Pop3Address { get; set; }
-
-		public int Pop3Port { get; set; }
-
-		public bool UseSsl { get; set; }
+		public bool SmtpSsl { get; set; }
 	}
 }

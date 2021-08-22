@@ -10,5 +10,6 @@ namespace SeeWebMail.Contracts.Abstract
 	public interface IMailRepository
 	{
 		Task<OperationResult> Authorize(UserContract user, string password);
+		Task<IEnumerable<ImapFolderContract>> GetFolders(UserContract user, string password);
 	}
 }

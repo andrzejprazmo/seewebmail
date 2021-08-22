@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 import { AuthorizeComponent } from '../authorization/components/authorize/authorize.component';
@@ -10,6 +10,7 @@ import { MailboxComponent } from '../mailbox/components/mailbox/mailbox.componen
 import { AuthGuardService as AuthGuard } from '../authorization/services/auth-guard.service';
 import { ValidationErrorComponent } from './components/validation-error/validation-error.component';
 import { ApplicationMenuComponent } from './components/application-menu/application-menu.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -36,7 +37,11 @@ export const routes: Routes = [
     })
   ],
   exports: [RouterModule, ValidationErrorComponent, ApplicationMenuComponent],
-  providers: [AuthGuard],
+  providers: [AuthGuard, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   schemas: []
 })
 export class SharedModule { }

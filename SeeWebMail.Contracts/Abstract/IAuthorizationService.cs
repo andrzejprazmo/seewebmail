@@ -1,5 +1,6 @@
 ﻿using SeeWebMail.Contracts.Common;
 using SeeWebMail.Contracts.Contracts;
+using SeeWebMail.Contracts.Contracts.Authorize;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,6 @@ namespace SeeWebMail.Contracts.Abstract
 {
 	public interface IAuthorizationService
 	{
-		Task<OperationResult<UserContract>> Login(string userEmail, string password);
+		Task<OperationResult<TokenContract>> Login(string userEmail, string password);
 	}
 }
