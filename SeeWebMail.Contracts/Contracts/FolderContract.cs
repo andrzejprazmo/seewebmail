@@ -4,8 +4,9 @@ using System.Text;
 
 namespace SeeWebMail.Contracts.Contracts
 {
-    public class ImapFolderContract
+    public class FolderContract
     {
-        public string FolderName { get; set; }
+		public string FolderId { get; set; }
+		public string FolderName { get; set; }
     }
 }

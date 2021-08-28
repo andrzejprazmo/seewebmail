@@ -9,11 +9,12 @@ namespace SeeWebMail.Core.Mappers
 {
     public static class UserMapper
     {
-        public static UserContract FromClaims(ClaimsPrincipal claims)
+        public static CredentialsContract FromClaims(ClaimsPrincipal claims)
         {
-            return new UserContract
+            return new CredentialsContract
             {
                 UserEmail = claims.FindFirstValue(CustomClaimTypes.UserEmail),
+                UserPassword = claims.FindFirstValue(CustomClaimTypes.UserPassword),
                 Mailbox = new MailboxContract
                 {
                     ImapAddress = claims.FindFirstValue(CustomClaimTypes.ImapAddress),

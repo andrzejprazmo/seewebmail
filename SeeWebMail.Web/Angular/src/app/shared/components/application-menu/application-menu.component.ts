@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorizeService, TokenContract } from '../../../authorization/services/authorize.service';
 
 @Component({
   selector: 'app-application-menu',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApplicationMenuComponent implements OnInit {
 
-  constructor() { }
+  public get currentUser(): TokenContract | null {
+    return this.authService.getUser();
+  }
+  constructor(private authService: AuthorizeService) { }
 
   ngOnInit(): void {
   }

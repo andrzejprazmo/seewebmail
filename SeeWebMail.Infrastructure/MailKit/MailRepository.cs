@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Imap;
+﻿using MailKit;
+using MailKit.Net.Imap;
 using MailKit.Security;
 using SeeWebMail.Contracts.Abstract;
 using SeeWebMail.Contracts.Common;
@@ -24,6 +25,7 @@ namespace SeeWebMail.Infrastructure.MailKit
 			{
 				using (var imapClient = new ImapClient())
 				{
+					imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
 					await imapClient.ConnectAsync(user.Mailbox.ImapAddress, user.Mailbox.ImapPort, user.Mailbox.SmtpSsl);
 					await imapClient.AuthenticateAsync(user.UserEmail, password);
 					return OperationResult.Success;
@@ -33,24 +35,54 @@ namespace SeeWebMail.Infrastructure.MailKit
 			{
 				return OperationResult.Create().WithError(ErrorCodes.LoginUserBadPassword);
 			}
+			catch(SslHandshakeException)
+			{
+				return OperationResult.Create().WithError(ErrorCodes.LoginUserBadCertificate);
+			}
 			catch (Exception)
 			{
 				return OperationResult.Create().WithError(ErrorCodes.SystemError);
 			}
 		}
 
-        public async Task<IEnumerable<ImapFolderContract>> GetFolders(UserContract user, string password)
+        public async Task<IEnumerable<FolderContract>> GetFolders(CredentialsContract credentials)
         {
 			using (var imapClient = new ImapClient())
 			{
-				await imapClient.ConnectAsync(user.Mailbox.ImapAddress, user.Mailbox.ImapPort, user.Mailbox.SmtpSsl);
-				await imapClient.AuthenticateAsync(user.UserEmail, password);
-				var count = imapClient.Inbox.Count;
+				imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+				await imapClient.ConnectAsync(credentials.Mailbox.ImapAddress, credentials.Mailbox.ImapPort, credentials.Mailbox.SmtpSsl);
+				await imapClient.AuthenticateAsync(credentials.UserEmail, credentials.UserPassword);
 				var folders = await imapClient.GetFoldersAsync(imapClient.PersonalNamespaces[0]);
-				return folders.Select(f => new ImapFolderContract 
-				{ 
+				return folders.Select(f => new FolderContract
+				{
+					FolderId = f.Id,
 					FolderName = f.FullName,
 				}).ToList();
+			}
+		}
+
+		public async Task<IEnumerable<MailMessageHeaderContract>> GetMailHeaders(CredentialsContract credentials, string folderName, int skip = 0, int take = 10)
+		{
+			using (var imapClient = new ImapClient())
+			{
+				imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+				await imapClient.ConnectAsync(credentials.Mailbox.ImapAddress, credentials.Mailbox.ImapPort, credentials.Mailbox.SmtpSsl);
+				await imapClient.AuthenticateAsync(credentials.UserEmail, credentials.UserPassword);
+				var folder = await imapClient.GetFolderAsync(folderName);
+				if (folder != null)
+				{
+					var list = folder.Select(mm => new MailMessageHeaderContract 
+					{ 
+						Id = mm.MessageId,
+						Senders = mm.From.Select(s=>s.Name).ToArray(),
+						Title = mm.Subject,
+					}).SkipLast(skip)
+					.TakeLast(take)
+					.ToList();
+					await folder.CloseAsync();
+					return list;
+				}
+				throw new Exception($"Cannot open folder {folderName}");
 			}
 		}
 	}

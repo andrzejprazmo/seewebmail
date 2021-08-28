@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Angular\src\app\mailbox\models\mailbox.models.ts" />
     <None Remove="Angular\src\app\shared\models\operation-result.ts" />
     <None Remove="webmail" />
   </ItemGroup>
@@ -43,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="Angular\src\app\mailbox\models\mailbox.models.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\models\operation-result.ts" />
   </ItemGroup>
 

@@ -8,6 +8,6 @@ namespace SeeWebMail.Contracts.Abstract
 {
     public interface IMailboxService
     {
-        Task<IEnumerable<ImapFolderContract>> GetFolders();
+        Task<IEnumerable<FolderContract>> GetFolders();
     }
 }

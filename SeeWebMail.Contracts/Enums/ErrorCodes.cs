@@ -9,5 +9,6 @@ namespace SeeWebMail.Contracts.Enums
 		SystemError = 100,
 		LoginUserNotFound = 101,
 		LoginUserBadPassword = 102,
+		LoginUserBadCertificate = 103,
 	}
 }

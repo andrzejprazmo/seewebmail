@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizeService, TokenContract } from '../../../authorization/services/authorize.service';
+import { FolderContract } from '../../models/mailbox.models';
 import { MailboxService } from '../../services/mailbox.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { MailboxService } from '../../services/mailbox.service';
 })
 export class MailboxComponent implements OnInit {
 
-  folderList: string[] = [];
+  folderList: FolderContract[] = [];
 
   public get currentUser(): TokenContract | null {
     return this.authService.getUser();

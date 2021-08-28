@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using SeeWebMail.Contracts.Abstract;
 using SeeWebMail.Contracts.Const;
 using SeeWebMail.Contracts.Contracts;
@@ -15,20 +16,28 @@ namespace SeeWebMail.Core.Services
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMailRepository mailRepository;
+        private readonly ILogger<IMailboxService> logger;
 
-        public MailboxService(IHttpContextAccessor httpContextAccessor, IMailRepository mailRepository)
+        public MailboxService(ILogger<IMailboxService> logger, IHttpContextAccessor httpContextAccessor, IMailRepository mailRepository)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.mailRepository = mailRepository;
+            this.logger = logger;
         }
 
-        public async Task<IEnumerable<ImapFolderContract>> GetFolders()
+        public async Task<IEnumerable<FolderContract>> GetFolders()
         {
-            var currentUser = UserMapper.FromClaims(httpContextAccessor.HttpContext.User);
-            var password = httpContextAccessor.HttpContext.User.FindFirstValue(CustomClaimTypes.UserPassword);
+			try
+			{
+				var currentUser = UserMapper.FromClaims(httpContextAccessor.HttpContext.User);
 
-            return await mailRepository.GetFolders(currentUser, password);
-
+				return await mailRepository.GetFolders(currentUser);
+			}
+			catch (Exception e)
+			{
+                logger.LogCritical(e, "ERROR");
+                throw;
+			}
         }
     }
 }

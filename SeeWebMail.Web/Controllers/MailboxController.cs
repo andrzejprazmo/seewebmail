@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SeeWebMail.Contracts.Abstract;
 using SeeWebMail.Contracts.Const;
+using SeeWebMail.Contracts.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,9 @@ namespace SeeWebMail.Web.Controllers
 
         [HttpGet]
         [Route("folders")]
-        public async Task<string[]> GetFolders()
+        public async Task<IEnumerable<FolderContract>> GetFolders()
         {
-            var folders = await mailboxService.GetFolders();
-            return folders.Select(f => f.FolderName).ToArray();
+            return await mailboxService.GetFolders();
         }
     }
 }

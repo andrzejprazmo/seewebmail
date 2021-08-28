@@ -14,7 +14,8 @@
   "errorCodes": {
     "ERROR_100": "Błąd aplikacji. Skontaktuj się z administratorem",
     "ERROR_101": "Ten adres email nie został zarejestrowany",
-    "ERROR_102": "Niewłasciwy adres email, bądź hasło"
+    "ERROR_102": "Niewłasciwy adres email, bądź hasło",
+    "ERROR_103": "Nie można połączyć się z serwerem. Niewłaściwy certyfikat SSL"
   }
 
 }
