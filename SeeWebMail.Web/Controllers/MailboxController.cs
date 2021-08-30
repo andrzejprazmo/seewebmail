@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SeeWebMail.Contracts.Abstract;
-using SeeWebMail.Contracts.Const;
-using SeeWebMail.Contracts.Contracts;
+using SeeWebMail.Core.Abstract;
+using SeeWebMail.Core.Contracts.Mailbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +25,20 @@ namespace SeeWebMail.Web.Controllers
         public async Task<IEnumerable<FolderContract>> GetFolders()
         {
             return await mailboxService.GetFolders();
+        }
+
+        [HttpGet]
+        [Route("headers")]
+        public async Task<MailPackageContract> GetMailHeaders(string folderName, int pageNumber = 0)
+        {
+            return await mailboxService.GetMailHeaders(folderName, pageNumber);
+        }
+
+        [HttpGet]
+        [Route("body")]
+        public async Task<MailBodyContract> GetMailBody(string folderName, int mailIndex)
+        {
+            return await mailboxService.GetMailBody(folderName, mailIndex);
         }
     }
 }

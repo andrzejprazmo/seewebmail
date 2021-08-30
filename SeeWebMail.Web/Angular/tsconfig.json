@@ -4,7 +4,9 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@shared/*": ["app/shared/*"]
+      "@shared/*": [ "app/shared/*" ],
+      "@mailbox/*": [ "app/mailbox/*" ],
+      "@auth/*": [ "app/authorization/*" ]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

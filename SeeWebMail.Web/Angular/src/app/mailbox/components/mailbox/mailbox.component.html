@@ -1,22 +1,13 @@
 <div class="container-fluid">
-  <div class="row fg-white-200 bg-gray-900 border-b-4 border-indigo-600">
-
-
-    <div class="col-2">
-      <div class="justify-content-center mt-2"><div class="text-center text-2xl">SEE WebMail Client</div></div>
+  <app-application-menu></app-application-menu>
+  <div class="row">
+    <div class="col-4">
+      <app-mailbox-folders [folders]="folderList" (onFolderChange)="onFolderChange($event)"></app-mailbox-folders>
+      <app-mailbox-list [items]="mailItemList" (onMailSelected)="onMailSelected($event)"></app-mailbox-list>
     </div>
     <div class="col">
-      <div *ngIf="currentUser" class="row justify-content-end">
-        <app-application-menu></app-application-menu>
-      </div>
+      <app-mailbox-toolbar></app-mailbox-toolbar>
+      <app-mailbox-body [mailBody]="currentMailBody"></app-mailbox-body>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col">TOOLBAR</div>
-  </div>
-  <div class="row">
-    <div class="col">LEFT</div>
-    <div class="col">RIGHT</div>
   </div>
 </div>

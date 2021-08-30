@@ -20,8 +20,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Angular\src\app\mailbox\componnets\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Angular\src\app\mailbox\componnets\**" />
+    <EmbeddedResource Remove="Angular\src\app\mailbox\componnets\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Angular\src\app\mailbox\componnets\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -38,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SeeWebMail.Contracts\SeeWebMail.Contracts.csproj" />
+    <ProjectReference Include="..\SeeWebMail.Common\SeeWebMail.Common.csproj" />
     <ProjectReference Include="..\SeeWebMail.Core\SeeWebMail.Core.csproj" />
     <ProjectReference Include="..\SeeWebMail.Infrastructure\SeeWebMail.Infrastructure.csproj" />
   </ItemGroup>

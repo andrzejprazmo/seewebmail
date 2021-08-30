@@ -1,0 +1,42 @@
+
+.bg-gray-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(17,24,39,var(--tw-bg-opacity));
+}
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(229,231,235,var(--tw-bg-opacity));
+}
+
+
+.fg-white-200 {
+  color: #DDD;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.border-indigo-600 {
+  --tw-border-opacity: 1;
+  border-color: rgba(79,70,229,var(--tw-border-opacity));
+}
+
+.border-b-4 {
+  border-bottom-width: 4px;
+  border-bottom-style: solid;
+}
+
+.navbar.transparent.navbar-inverse .navbar-inner {
+  background: rgba(0,0,0,0.4);
+}
+
+.application-menu .nav-link {
+  color: #DDD;
+}
+
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgba(229,231,235,var(--tw-bg-opacity));
+}

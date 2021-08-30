@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SeeWebMail.Contracts.Abstract;
-using SeeWebMail.Contracts.Common;
-using SeeWebMail.Contracts.Contracts;
-using SeeWebMail.Contracts.Contracts.Authorize;
+using SeeWebMail.Common;
+using SeeWebMail.Core.Abstract;
+using SeeWebMail.Core.Contracts.Authorize;
 using System;
 using System.Collections.Generic;
 using System.Linq;

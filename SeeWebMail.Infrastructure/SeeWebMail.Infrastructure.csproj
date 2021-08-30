@@ -12,21 +12,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SeeWebMail.Contracts\SeeWebMail.Contracts.csproj" />
+    <ProjectReference Include="..\SeeWebMail.Common\SeeWebMail.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Sqlite\Sql\SqlQueries.Designer.cs">
+    <Compile Update="Resources\Sql\Queries.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>SqlQueries.resx</DependentUpon>
+      <DependentUpon>Queries.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Sqlite\Sql\SqlQueries.resx">
+    <EmbeddedResource Update="Resources\Sql\Queries.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SqlQueries.Designer.cs</LastGenOutput>
+      <LastGenOutput>Queries.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

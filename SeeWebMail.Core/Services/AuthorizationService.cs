@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SeeWebMail.Contracts.Abstract;
-using SeeWebMail.Contracts.Common;
-using SeeWebMail.Contracts.Configuration;
-using SeeWebMail.Contracts.Const;
-using SeeWebMail.Contracts.Contracts;
-using SeeWebMail.Contracts.Contracts.Authorize;
-using SeeWebMail.Contracts.Enums;
+using SeeWebMail.Common;
+using SeeWebMail.Common.Configuration;
+using SeeWebMail.Common.Const;
+using SeeWebMail.Common.Enums;
+using SeeWebMail.Core.Abstract;
+using SeeWebMail.Core.Contracts.Authorize;
+using SeeWebMail.Infrastructure.Abstract;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,12 +20,12 @@ namespace SeeWebMail.Core.Services
 	public class AuthorizationService : IAuthorizationService
 	{
 		private readonly ISqliteRepository sqliteRepository;
-		private readonly IMailRepository mailRepository;
+		private readonly IMailKitRepository mailRepository;
 		private readonly ILogger<IAuthorizationService> logger;
 		private readonly Authorization authorization;
 		public AuthorizationService(ILogger<IAuthorizationService> logger
 			, ISqliteRepository sqliteRepository
-			, IMailRepository mailRepository
+			, IMailKitRepository mailRepository
 			, IOptions<Authorization> options)
 		{
 			this.sqliteRepository = sqliteRepository;

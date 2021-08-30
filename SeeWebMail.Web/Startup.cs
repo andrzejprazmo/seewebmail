@@ -7,11 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using SeeWebMail.Contracts.Abstract;
-using SeeWebMail.Contracts.Configuration;
+using SeeWebMail.Common.Configuration;
+using SeeWebMail.Core.Abstract;
 using SeeWebMail.Core.Services;
-using SeeWebMail.Infrastructure.MailKit;
-using SeeWebMail.Infrastructure.Sqlite;
+using SeeWebMail.Infrastructure.Abstract;
+using SeeWebMail.Infrastructure.Repositories;
 using System;
 using System.Text;
 
@@ -26,21 +26,21 @@ namespace SeeWebMail.Web
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
-			// In production, the Angular files will be served from this directory
+
 			services.AddSpaStaticFiles(configuration =>
 			{
 				configuration.RootPath = "Angular/dist";
 			});
 			services.AddHttpContextAccessor();
 
-			services.Configure<Authorization>(Configuration.GetSection("Authorization"));
+			services.Configure<Authorization>(Configuration.GetSection(nameof(Authorization)));
+			services.Configure<Mailbox>(Configuration.GetSection(nameof(Mailbox)));
 
 			services.AddSingleton<ISqliteRepository>(new SqliteRepository(Configuration["ConnectionStrings:WebmailDatabase"]));
-			services.AddTransient<IMailRepository, MailRepository>();
+			services.AddTransient<IMailKitRepository, MailKitRepository>();
 
 			services.AddTransient<IAuthorizationService, AuthorizationService>();
 			services.AddTransient<IMailboxService, MailboxService>();
@@ -74,7 +74,6 @@ namespace SeeWebMail.Web
 			else
 			{
 				app.UseExceptionHandler("/Error");
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
 
@@ -102,12 +101,11 @@ namespace SeeWebMail.Web
 			{
 				spa.Options.SourcePath = "Angular";
 
-				if (env.IsDevelopment())
-				{
-					//spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
-					spa.UseAngularCliServer(npmScript: "start");
-				}
-			});
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
 		}
 	}
 }
