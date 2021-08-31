@@ -16,15 +16,15 @@ namespace SeeWebMail.Infrastructure.Repositories
 {
     public class MailKitRepository : IMailKitRepository
     {
-        public async Task<OperationResult> Authorize(User user, string password)
+        public async Task<OperationResult> Authorize(Mailbox mailbox, string userEmail, string password)
         {
             try
             {
                 using (var imapClient = new ImapClient())
                 {
                     imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    await imapClient.ConnectAsync(user.Mailbox.ImapAddress, user.Mailbox.ImapPort, user.Mailbox.SmtpSsl);
-                    await imapClient.AuthenticateAsync(user.UserEmail, password);
+                    await imapClient.ConnectAsync(mailbox.ImapAddress, mailbox.ImapPort, mailbox.SmtpSsl);
+                    await imapClient.AuthenticateAsync(userEmail, password);
                     return OperationResult.Success;
                 }
             }

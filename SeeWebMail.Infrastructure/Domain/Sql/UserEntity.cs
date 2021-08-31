@@ -4,18 +4,11 @@ using System.Text;
 
 namespace SeeWebMail.Infrastructure.Domain.Sql
 {
-	public class UserEntity
+	public class UserEntity : MailboxEntity
 	{
 		public string usr_id { get; set; }
 		public string usr_email { get; set; }
 		public bool usr_admin { get; set; }
-		public string mbx_id { get; set; }
-		public string mbx_imap_address { get; set; }
-		public int mbx_imap_port { get; set; }
-		public string mbx_smtp_address { get; set; }
-		public int mbx_smtp_port { get; set; }
-		public bool mbx_imap_ssl { get; set; }
-		public bool mbx_smtp_ssl { get; set; }
 
 		public User MapToUser() => new User
 		{
@@ -25,6 +18,7 @@ namespace SeeWebMail.Infrastructure.Domain.Sql
 			Mailbox = new Mailbox
 			{
 				MailboxId = Guid.Parse(mbx_id),
+				DomainName = mbx_domain_name,
 				ImapAddress = mbx_imap_address,
 				ImapPort = mbx_imap_port,
 				SmtpAddress = mbx_smtp_address,

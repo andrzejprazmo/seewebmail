@@ -8,7 +8,9 @@ namespace SeeWebMail.Infrastructure.Domain
     {
 		public Guid MailboxId { get; set; }
 
-		public string ImapAddress { get; set; }
+        public string DomainName { get; set; }
+
+        public string ImapAddress { get; set; }
 
 		public int ImapPort { get; set; }
 

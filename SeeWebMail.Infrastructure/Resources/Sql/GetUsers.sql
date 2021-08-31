@@ -8,5 +8,6 @@
 	, mbx.mbx_smtp_port
 	, mbx.mbx_smtp_ssl
 	, mbx.mbx_imap_ssl
+	, mbx.mbx_domain_name
 FROM users usr JOIN mailboxes mbx ON usr.mbx_id = mbx.mbx_id
 WHERE usr.usr_email = @UserEmail

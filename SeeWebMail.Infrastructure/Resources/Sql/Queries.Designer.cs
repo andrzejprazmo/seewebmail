@@ -61,6 +61,25 @@ namespace SeeWebMail.Infrastructure.Resources.Sql {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT mbx.mbx_id 
+        ///	, mbx.mbx_domain_name 	
+        ///	, mbx.mbx_imap_address
+        ///	, mbx.mbx_imap_port
+        ///	, mbx.mbx_smtp_address
+        ///	, mbx.mbx_smtp_port
+        ///	, mbx.mbx_smtp_ssl
+        ///	, mbx.mbx_imap_ssl
+        ///FROM mailboxes mbx
+        ///WHERE mbx.mbx_domain_name = @DomainName
+        ///.
+        /// </summary>
+        public static string GetMailbox {
+            get {
+                return ResourceManager.GetString("GetMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT usr.usr_id
         ///	, usr.usr_email
         ///	, usr.usr_admin
@@ -71,6 +90,7 @@ namespace SeeWebMail.Infrastructure.Resources.Sql {
         ///	, mbx.mbx_smtp_port
         ///	, mbx.mbx_smtp_ssl
         ///	, mbx.mbx_imap_ssl
+        ///	, mbx.mbx_domain_name
         ///FROM users usr JOIN mailboxes mbx ON usr.mbx_id = mbx.mbx_id
         ///WHERE usr.usr_email = @UserEmail
         ///.

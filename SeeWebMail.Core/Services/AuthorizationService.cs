@@ -11,6 +11,7 @@ using SeeWebMail.Infrastructure.Abstract;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,10 +39,11 @@ namespace SeeWebMail.Core.Services
 		{
 			try
 			{
-				var user = await sqliteRepository.FindUser(userEmail);
-				if (user != null)
+				var mailbox = await sqliteRepository.FindMailbox(new MailAddress(userEmail));
+				if (mailbox != null)
 				{
-					var result = await mailRepository.Authorize(user, password);
+					var user = await sqliteRepository.FindUser(userEmail);
+					var result = await mailRepository.Authorize(mailbox, userEmail, password);
 					if (!result.HasErrors)
 					{
 						var tokenHandler = new JwtSecurityTokenHandler();
@@ -49,13 +51,13 @@ namespace SeeWebMail.Core.Services
 						{
 							new Claim(CustomClaimTypes.UserEmail, userEmail),
 							new Claim(CustomClaimTypes.UserPassword, password),
-							new Claim(CustomClaimTypes.ImapAddress, user.Mailbox.ImapAddress),
-							new Claim(CustomClaimTypes.ImapPort, user.Mailbox.ImapPort.ToString()),
-							new Claim(CustomClaimTypes.ImapSsl, user.Mailbox.ImapSsl.ToString()),
-							new Claim(CustomClaimTypes.SmtpAddress, user.Mailbox.SmtpAddress),
-							new Claim(CustomClaimTypes.SmtpPort, user.Mailbox.SmtpPort.ToString()),
-							new Claim(CustomClaimTypes.SmtpSsl, user.Mailbox.SmtpSsl.ToString()),
-							new Claim(ClaimTypes.Role, user.IsAdmin ? "ADMIN" : "USER"),
+							new Claim(CustomClaimTypes.ImapAddress, mailbox.ImapAddress),
+							new Claim(CustomClaimTypes.ImapPort, mailbox.ImapPort.ToString()),
+							new Claim(CustomClaimTypes.ImapSsl, mailbox.ImapSsl.ToString()),
+							new Claim(CustomClaimTypes.SmtpAddress, mailbox.SmtpAddress),
+							new Claim(CustomClaimTypes.SmtpPort, mailbox.SmtpPort.ToString()),
+							new Claim(CustomClaimTypes.SmtpSsl, mailbox.SmtpSsl.ToString()),
+							new Claim(ClaimTypes.Role, user != null ? "ADMIN" : "USER"),
 						};
 						var tokenDescriptor = new SecurityTokenDescriptor
 						{
