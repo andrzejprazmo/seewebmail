@@ -2,12 +2,20 @@
   <app-application-menu></app-application-menu>
   <div class="row">
     <div class="col-4">
-      <app-mailbox-folders [folders]="folderList" (onFolderChange)="onFolderChange($event)"></app-mailbox-folders>
-      <app-mailbox-list [items]="mailItemList" (onMailSelected)="onMailSelected($event)"></app-mailbox-list>
+      <div class="card min-vh-100">
+        <div class="card-body">
+          <app-mailbox-folders [folders]="folderList" (onFolderChange)="onFolderChange($event)"></app-mailbox-folders>
+          <app-mailbox-list [items]="mailItemList" (onMailSelected)="onMailSelected($event)"></app-mailbox-list>
+        </div>
+      </div>
     </div>
     <div class="col">
-      <app-mailbox-toolbar></app-mailbox-toolbar>
-      <app-mailbox-body [mailBody]="currentMailBody"></app-mailbox-body>
+      <div class="card min-vh-100">
+        <div class="card-body">
+          <app-mailbox-toolbar></app-mailbox-toolbar>
+          <app-mailbox-body [mailBody]="currentMailBody"></app-mailbox-body>
+        </div>
+      </div>
     </div>
   </div>
 </div>

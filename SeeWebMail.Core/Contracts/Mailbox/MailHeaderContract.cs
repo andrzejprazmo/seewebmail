@@ -10,5 +10,8 @@ namespace SeeWebMail.Core.Contracts.Mailbox
         public string[] Senders { get; set; }
         public string Subject { get; set; }
         public DateTime Date { get; set; }
-    }
+		public bool HasAttachements { get; set; }
+		public bool Flagged { get; set; }
+		public bool Read { get; set; }
+	}
 }
